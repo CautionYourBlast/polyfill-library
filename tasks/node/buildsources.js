@@ -104,8 +104,16 @@ class Polyfill {
 		return this.config.dependencies || [];
 	}
 
+	get hasJSONConfig() {
+		return this.configPath.endsWith('json');
+	}
+
 	get configPath() {
-		return path.join(this.path.absolute, 'config.toml');
+		const tomlPath = path.join(this.path.absolute, 'config.toml');
+		if (fs.existsSync(tomlPath)) {
+			return tomlPath;
+		}
+		return path.join(this.path.absolute, 'config.json');
 	}
 
 	get detectPath() {
@@ -134,7 +142,11 @@ class Polyfill {
 				};
 			})
 			.then(data => {
-				this.config = TOML.parse(data);
+				if  (this.hasJSONConfig) {
+					this.config = JSON.parse(data);
+				} else {
+					this.config = TOML.parse(data);
+				}
 
 				// Each internal polyfill needs to target all supported browsers at all versions.
 				if (this.path.relative.startsWith('_')) {
