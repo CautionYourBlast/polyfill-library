@@ -1,6 +1,6 @@
 {
-  "name": "polyfill-library",
-  "version": "3.52.3",
+  "name": "@cautionyourblast/polyfill-library",
+  "version": "3.89.4-cyb-1",
   "description": "A polyfill combinator",
   "main": "lib/index.js",
   "contributors": [
